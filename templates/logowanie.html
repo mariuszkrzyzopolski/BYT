@@ -53,23 +53,23 @@
       <div class="row">
         <div class="col-sm-6 col-md-5 col-lg-6"><img src="static/img/img/1.jpg" class="img-fluid" alt="1.jpg"></div>
         <div class="col-sm-6 col-md-5 offset-md-2 col-lg-6 offset-lg-0">
-<form>
+<form method="POST" action="/login" name="zaloguj">
           <h3>Panel Logowania</h3><br><br>
           <div class="row g-3 align-items-center">
             <div class="col-auto">
-              <label for="inputPassword6" class="col-form-label">Login</label>
+              <label for="username" class="col-form-label">Login</label>
             </div>
             <div class="col-auto">
-              <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+              <input type="text" name="username" class="form-control" aria-describedby="passwordHelpInline">
             </div>
           </div>
           <br>
           <div class="row g-3 align-items-center">
             <div class="col-auto">
-              <label for="inputPassword6" class="col-form-label">Hasło</label>
+              <label for="password" class="col-form-label">Hasło</label>
             </div>
             <div class="col-auto">
-              <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+              <input type="password" name="password" class="form-control" aria-describedby="passwordHelpInline">
             </div>
             <div class="col-auto">
               <span id="passwordHelpInline" class="form-text">
@@ -79,8 +79,8 @@
           </div>
           <div class="container">
             <div class="row row-cols-2">
-              <button type="submit" name="zaloguj" class="btn btn-light">Zaloguj</button>
-              <button type="submit" name="zarejestruj" class="btn btn-light">Zarejestruj</button>
+              <input type="submit" value="Zaloguj" name="loguj" class="btn btn-light">
+              <input type="submit" value="Zarejestruj" name="loguj" class="btn btn-light">
           </div>
 </form>
         </div>

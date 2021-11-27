@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
@@ -10,8 +11,9 @@ def hello_world():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    url_for('static', filename='style.css')
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('logowanie.html')
     else:
         name = request.form['username']
         password = request.form['password']

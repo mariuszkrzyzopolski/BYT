@@ -2,18 +2,6 @@ from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True)
-    password = db.Column(db.String(50))
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
-
 
 @app.route("/")
 def hello_world():
@@ -38,9 +26,44 @@ def login():
             return "Don't Login"
 
 
+@app.route('/register/', methods=['GET', 'POST'])
+def register():
+    """Register Form"""
+    if request.method == 'POST':
+        new_user = User(
+            username=request.form['username'],
+            password=request.form['password'])
+        db.session.add(new_user)
+        db.session.commit()
+        return render_template('login.html')
+    return render_template('register.html')
+
+
 @app.route('/hello/<name>')
 def hello(name=None):
     return render_template('index.html', name=name)
 
 
-app.run(debug=True)
+@app.route("/logout")
+def logout():
+    """Logout Form"""
+    session['logged_in'] = False
+    return redirect(url_for('home'))
+
+
+if __name__ == '__main__':
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+    db = SQLAlchemy(app)
+    app.debug = True
+    db.create_all()
+    app.run()
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True)
+    password = db.Column(db.String(50))
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password

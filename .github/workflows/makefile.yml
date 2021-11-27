@@ -9,17 +9,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    
-    - name: configure
-      run: ./configure
       
     - name: Install dependencies
-      run: make innstall
+      run: make install
       
     - name: Run check
-      run: make run
+      run: make test

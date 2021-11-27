@@ -2,6 +2,11 @@ from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+db = SQLAlchemy(app)
+app.debug = True
+db.create_all()
+app.run()
 
 
 @app.route("/")
@@ -51,14 +56,6 @@ def logout():
     """Logout Form"""
     session['logged_in'] = False
     return redirect(url_for('home'))
-
-
-if __name__ == '__main__':
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-    db = SQLAlchemy(app)
-    app.debug = True
-    db.create_all()
-    app.run()
 
 
 class User(db.Model):

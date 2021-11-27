@@ -2,7 +2,8 @@ from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://sql11454497:RwkSDDxD8v@sql11.freemysqlhosting.net' \
+                                        ':3306/sql11454497 '
 db = SQLAlchemy(app)
 app.debug = True
 db.create_all()
@@ -16,34 +17,28 @@ def hello_world():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    url_for('static', filename='style.css')
     if request.method == 'GET':
         return render_template('logowanie.html')
     else:
-        name = request.form['username']
-        password = request.form['password']
-        try:
-            data = User.query.filter_by(username=name, password=password).first()
-            if data is not None:
-                session['logged_in'] = True
-                return redirect(url_for('home'))
-            else:
+        if request.form['zaloguj']:
+            name = request.form['username']
+            password = request.form['password']
+            try:
+                data = User.query.filter_by(username=name, password=password).first()
+                if data is not None:
+                    session['logged_in'] = True
+                    return redirect(url_for('home'))
+                else:
+                    return "Don't Login"
+            except:
                 return "Don't Login"
-        except:
-            return "Don't Login"
-
-
-@app.route('/register/', methods=['GET', 'POST'])
-def register():
-    """Register Form"""
-    if request.method == 'POST':
-        new_user = User(
-            username=request.form['username'],
-            password=request.form['password'])
-        db.session.add(new_user)
-        db.session.commit()
-        return render_template('login.html')
-    return render_template('register.html')
+        else:
+            new_user = User(
+                username=request.form['username'],
+                password=request.form['password'])
+            db.session.add(new_user)
+            db.session.commit()
+            return render_template('logowanie.html')
 
 
 @app.route('/hello/<name>')

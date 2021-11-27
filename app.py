@@ -1,6 +1,5 @@
 from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
-from functools import wraps
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -15,9 +14,11 @@ class User(db.Model):
         self.username = username
         self.password = password
 
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -40,3 +41,6 @@ def login():
 @app.route('/hello/<name>')
 def hello(name=None):
     return render_template('index.html', name=name)
+
+
+app.run(debug=True)

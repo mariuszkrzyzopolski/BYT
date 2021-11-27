@@ -8,10 +8,10 @@ install:
 	cd VenusFlytrap
 	python3 -m venv $(VENV)
 	PYTHONPATH=$(VENV) ; . $(VENV)/bin/activate
-	$(PIP) install Flask
+	$(PIP) install -r requirements.txt
 
 run:
-	export FLASK_APP=main
+	export FLASK_ENV=development
 	$(PYTHON) -m flask run
 	
 clean:

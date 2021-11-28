@@ -1,18 +1,18 @@
 VENV = flaskenv
 PYTHON = $(VENV)/bin/python3
 PIP = $(VENV)/bin/pip
+ACTIVATE = . $(VENV)/bin/activate
 
 install:
 	sudo apt install python3 python3-venv python3-pip
 	mkdir VenusFlytrap
 	cd VenusFlytrap
 	python3 -m venv $(VENV)
-	PYTHONPATH=$(VENV) ; . $(VENV)/bin/activate
+	PYTHONPATH=$(VENV); . $(VENV)/bin/activate
 	$(PIP) install -r requirements.txt
 
 run:
-	export FLASK_ENV=development
-	$(PYTHON) -m flask run
+	$(ACTIVATE) && flask run --debugger
 
 clean:
 	rm -r $(VENV)

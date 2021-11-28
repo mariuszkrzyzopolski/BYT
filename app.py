@@ -2,12 +2,13 @@ from flask import Flask, url_for, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.secret_key = '1'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://sql11454497:RwkSDDxD8v@sql11.freemysqlhosting.net' \
                                         ':3306/sql11454497 '
+app.config['ENV'] = 'development'
+app.config['DEBUG'] = True
+app.config['TESTING'] = True
 db = SQLAlchemy(app)
-app.secret_key = '1'
-app.debug = True
-db.create_all()
 
 
 class User(db.Model):
@@ -61,4 +62,6 @@ def logout():
     return redirect(url_for('home'))
 
 
-app.run()
+if __name__ == '__main__':
+    db.create_all()
+    app.run(debug=True)

@@ -1,24 +1,6 @@
-from flask import Flask, url_for, render_template, request, redirect, session
-from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-app.secret_key = '1'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://sql11454497:RwkSDDxD8v@sql11.freemysqlhosting.net' \
-                                        ':3306/sql11454497 '
-app.config['ENV'] = 'development'
-app.config['DEBUG'] = True
-app.config['TESTING'] = True
-db = SQLAlchemy(app)
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True)
-    password = db.Column(db.String(50))
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
+from flask import url_for, render_template, request, redirect, session
+from models import User
+from main import app, db
 
 
 @app.route("/")
@@ -31,23 +13,16 @@ def login():
     if request.method == 'GET':
         return render_template('logowanie.html')
     else:
-        app.logger.debug(request.form['loguj'])
         if request.form['loguj'] == "Zaloguj":
             name = request.form['username']
             password = request.form['password']
             data = User.query.filter_by(username=name, password=password).first()
             if data is not None:
                 session['logged_in'] = True
+                session['username'] = name
                 return redirect(url_for("hello_world"))
             else:
                 return "Don't Login"
-        else:
-            new_user = User(
-                username=request.form['username'],
-                password=request.form['password'])
-            db.session.add(new_user)
-            db.session.commit()
-            return render_template('index.html')
 
 
 @app.route('/hello/<name>')
@@ -60,6 +35,34 @@ def logout():
     """Logout Form"""
     session['logged_in'] = False
     return redirect(url_for('home'))
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('rejestracja.html')
+    else:
+        new_user = User(
+            username=request.form['username'],
+            password=request.form['password'])
+        db.session.add(new_user)
+        db.session.commit()
+        session['username'] = request.form['username']
+        return render_template('index.html')
+
+
+@app.route("/account_edit", methods=['GET', 'POST'])
+def edit_account():
+    name = request.form['username']
+    password = request.form['password']
+    user = User.query.filter_by(username=name).first()
+    if user is not None:
+        if password is not None:
+            user.password = password
+        db.session.commit()
+        return redirect(url_for("hello_world"))
+    else:
+        return "User don't exists"
 
 
 if __name__ == '__main__':

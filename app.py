@@ -4,8 +4,8 @@ from main import app, db
 
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+def start():
+    return render_template('projekt.html')
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -20,14 +20,9 @@ def login():
             if data is not None:
                 session['logged_in'] = True
                 session['username'] = name
-                return redirect(url_for("hello_world"))
+                return redirect(url_for("start"))
             else:
                 return "404 User Not Found"
-
-
-@app.route('/hello/<name>')
-def hello(name=None):
-    return render_template('index.html', name=name)
 
 
 @app.route("/logout")
@@ -49,7 +44,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         session['username'] = request.form['username']
-        return render_template('index.html')
+        return redirect(url_for("start"))
 
 
 @app.route("/account_edit", methods=['GET', 'POST'])
@@ -61,7 +56,7 @@ def edit_account():
         if password is not None:
             user.password = password
         db.session.commit()
-        return redirect(url_for("hello_world"))
+        return redirect(url_for("start"))
     else:
         return "User don't exists"
 

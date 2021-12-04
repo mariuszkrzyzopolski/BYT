@@ -22,7 +22,7 @@ def login():
                 session['username'] = name
                 return redirect(url_for("hello_world"))
             else:
-                return "Don't Login"
+                return "404 User Not Found"
 
 
 @app.route('/hello/<name>')

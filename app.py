@@ -49,16 +49,30 @@ def register():
 
 @app.route("/account_edit", methods=['GET', 'POST'])
 def edit_account():
-    name = request.form['username']
-    password = request.form['password']
-    user = User.query.filter_by(username=name).first()
-    if user is not None:
-        if password is not None:
-            user.password = password
-        db.session.commit()
-        return redirect(url_for("start"))
+    if request.method == 'GET':
+        return render_template('rejestracja.html')
     else:
-        return "User don't exists"
+        name = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        user = User.query.filter_by(username=name).first()
+        if user is not None:
+            if password is not None:
+                user.password = password
+            if email is not None:
+                user.email = email
+            db.session.commit()
+            return redirect(url_for("start"))
+        else:
+            return "User don't exists"
+
+
+@app.route("/collection")
+def collection():
+    if session['logged_in']:
+        return render_template('kolekcja_roslin.html')
+    else:
+        return "Nie zalogowano!"
 
 
 if __name__ == '__main__':

@@ -31,7 +31,10 @@ def logout():
     session['logged_in'] = False
     return redirect(url_for('home'))
 
-
+@app.route("/kolekcja", methods=['GET', 'POST'])
+def kolekcja():
+    rosliny = ["pierwsza", "druga"]
+    return render_template('kolekcja_roslin.html', rosliny=rosliny)
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -78,3 +81,7 @@ def collection():
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
+
+
+
+

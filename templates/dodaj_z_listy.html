@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Block -->
+<main>
+  <!-- Title/Logo -->
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 style=color:green>Muchałówka </h1>
+        <img src="static/img/img/2.gif" class="img-fluid" alt="2.gif">
+      </div>
+    </div>
+  </div>
+  <!-- Tile/Logo-End -->
+  <!-- 2Columns-Block -->
+  <div class="container">
+    <div class="col-sm-12">
+      <h2 style="text-align:center;"> Dodaj roślinę do kolekcji
+      </h2><br>
+      <p style="text-align:center;"> Wybierz roślinę lub <button type="button" class="btn btn-success">dodaj
+          własną</button>
+      </p><br>
+
+      <div class="container">
+        <div class="row">
+          {% for roslina in rosliny %}
+          <a href="#" class="col">
+            <div class="p-3 border rounded-1 h-100">
+              <div class="row">
+                <div class="col"> <img src="static/img/rosliny/{{roslina}}.jpg" style="max-width: 100%;"></div>
+              </div>
+              <div class="row">
+                <div class="col">{{roslina}}</div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Columns-Block-End -->
+</main>
+<!-- Block-End -->
+<!-- Footer -->
+{% endblock %}

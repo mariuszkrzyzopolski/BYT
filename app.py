@@ -83,7 +83,7 @@ def edit_account():
 @app.route("/collection")
 def collection():
     if session['logged_in']:
-        rosliny = User.query.filter_by(username=session['username']).first().plant
+        rosliny = User.query.filter_by(username=session['username']).first().plants
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
         return redirect(url_for("login"))

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Block -->
+<main>
+  <!-- Slider/Carousel -->
+  <div id="myCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" style="margin-bottom: 3rem;">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" class="active" aria-current="true" data-bs-slide-to="0"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="static/img/slider/img1.jpg" class="d-block w-100" alt="img1">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Muchałówka</h1>
+            <p>Aplikacja przeznaczona do monitorowania roślin.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="static/img/slider/img2.jpg" class="d-block w-100" alt="img1">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Muchałówka</h1>
+            <p>Aplikacja przeznaczona do monitorowania roślin.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="static/img/slider/img3.jpg" class="d-block w-100" alt="img1">
+        <div class="container">
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <!-- Slider/Carousel-End -->
+
+  <!-- 3Columns-Block -->
+  <div id="3columns" class="container" style="margin-bottom: 3rem;">
+    <div class="row g-2">
+      <div class="col-md-4">
+        <div class="p-3 border rounded-1 h-100">
+          <h3>Ustawienie timera</h3>
+          <p>Opcja ustawienia timera pozwala na zarządzanie alertami, które ułatwią i usprawnią dbanie o kolekcję
+            roślin.</p>
+          <br>
+          <button type="button" class="btn btn-outline-success">Dodaj </button>
+          <button type="button" class="btn btn-outline-danger">Usuń </button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 border rounded-1 h-100">
+          <h3>Zarządzanie kolekcją</h3>
+          <p>Opcja Zarządzanie kolekcją umożliwia dodanie oraz usuwanie roślin z kolekcji użytkownika.</p>
+          <br><br>
+          <button type="button" class="btn btn-outline-success">Dodaj </button>
+          <button type="button" class="btn btn-outline-danger">Usuń </button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3 border rounded-1 h-100">
+          <h3>Informacja o roślinie</h3>
+          <p>Funkcjonalność dostarczająca informacje na temat posiadanej rośliny w kolekcji oraz jej pielęgnacji.
+          </p>
+          <br>
+          <button type="button" class="btn btn-outline-success">Wyświetl informację </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 3Columns-Block-End -->
+
+  <!-- Ad-Block -->
+  <div id="ad" style="padding-top: 1rem; padding-bottom: 1rem; background-color: #cccccc;">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h2>To jest miejsce na Twoją reklamę!</h>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Ad-Block-End -->
+</main>
+<!-- Block-End -->
+
+{% endblock %}

@@ -31,10 +31,7 @@ def logout():
     session['logged_in'] = False
     return redirect(url_for('home'))
 
-@app.route("/kolekcja", methods=['GET', 'POST'])
-def kolekcja():
-    rosliny = ["pierwsza", "druga"]
-    return render_template('kolekcja_roslin.html', rosliny=rosliny)
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -73,7 +70,8 @@ def edit_account():
 @app.route("/collection")
 def collection():
     if session['logged_in']:
-        return render_template('kolekcja_roslin.html')
+        rosliny = ["pierwsza", "druga"]
+        return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
         return "Nie zalogowano!"
 
@@ -81,7 +79,3 @@ def collection():
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
-
-
-
-

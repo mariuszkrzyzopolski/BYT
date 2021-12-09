@@ -50,7 +50,7 @@ def register():
 @app.route("/account_edit", methods=['GET', 'POST'])
 def edit_account():
     if request.method == 'GET':
-        return render_template('rejestracja.html')
+        return render_template('edycja.html')
     else:
         name = request.form['username']
         password = request.form['password']

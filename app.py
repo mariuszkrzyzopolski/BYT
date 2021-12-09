@@ -83,7 +83,7 @@ def edit_account():
 @app.route("/collection")
 def collection():
     if session['logged_in']:
-        rosliny = ["pierwsza", "druga"]
+        rosliny = session['user'].plant
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
         return redirect(url_for("login"))

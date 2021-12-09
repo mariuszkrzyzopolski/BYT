@@ -15,11 +15,13 @@ class User(db.Model):
 
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
     description = db.Column(db.String(500))
     photo = db.Column(db.String(10))
     ownership = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, description, photo, ownership):
+    def __init__(self, name, description, photo, ownership):
+        self.name = name
         self.description = description
         self.photo = photo
         self.ownership = ownership

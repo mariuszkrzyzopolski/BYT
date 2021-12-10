@@ -2,24 +2,24 @@
 {% block content %}
 <!-- Block -->
 <main>
-  <!-- Title/Logo -->
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <h1 style=color:green>Muchałówka </h1>
-        <img src="static/img/img/2.gif" class="img-fluid" alt="2.gif">
-      </div>
-    </div>
-  </div>
-  <!-- Tile/Logo-End -->
   <!-- 2Columns-Block -->
   <div class="container">
     <div class="col-sm-12">
-      <h2 style="text-align:center;"> Dodaj roślinę do kolekcji
+      <h2 style="text-align:center;">Dodaj roślinę do kolekcji
       </h2><br>
-      <p style="text-align:center;"> Wybierz roślinę lub <a href="/addNewPlant" type="button" class="btn btn-success">dodaj
+      {% if rosliny %}
+        <p style="text-align:center;">Wybierz roślinę lub <a href="/addNewPlant" type="button" class="btn btn-success">dodaj
           własną</a>
       </p><br>
+      {% else %}
+      <div type="alert" class="alert alert-warning text-center">Nie mamy w tej chwili wolnych roślin do dodania
+        <br><br>
+        <a href="/addNewPlant" type="button" class="btn btn-success">Dodaj własną roślinę</a>
+      </div>
+      {% endif %}
+
+
+
 
       <div class="container">
         <div class="row">

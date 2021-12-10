@@ -2,13 +2,20 @@ from flask import url_for, render_template, request, redirect, session, g
 from models import User, Plant
 from main import app, db
 
+@app.before_request
+def check_if_user_logged_in():
+    name = session.get('username')
+    if name is None:
+        g.user = None
+    else:
+        g.user = User.query.filter_by(username=name).first()
 
 @app.route("/")
 def start():
     if session.get("logged_in") is None:
-        return render_template('firstPage.html', url="/login", log_btn="Zaloguj")
+        return render_template('firstPage.html')
     else:
-        return render_template('firstPage.html', url="/logout", log_btn="Wyloguj")
+        return render_template('firstPage.html')
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -22,6 +29,7 @@ def login():
                 password = request.form['password']
                 data = User.query.filter_by(username=name, password=password).first()
                 if data is not None:
+                    session.clear()
                     session['logged_in'] = True
                     session['username'] = name
                     return redirect(url_for("start"))

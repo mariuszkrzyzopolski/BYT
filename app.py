@@ -5,67 +5,79 @@ from main import app, db
 
 @app.route("/")
 def start():
-    return render_template('projekt.html')
+    if session['logged_in'] == False:
+        return render_template('projekt.html', url="/login", log_btn="Zaloguj")
+    else:
+        return render_template('projekt.html', url="/logout", log_btn="Wyloguj")
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == 'GET':
-        return render_template('logowanie.html')
+    if session['logged_in'] == False:
+        if request.method == 'GET':
+            return render_template('logowanie.html')
+        else:
+            if request.form['loguj'] == "Zaloguj":
+                name = request.form['username']
+                password = request.form['password']
+                data = User.query.filter_by(username=name, password=password).first()
+                if data is not None:
+                    session['logged_in'] = True
+                    session['username'] = name
+                    return redirect(url_for("start"))
+                else:
+                    return "404 User Not Found"
     else:
-        if request.form['loguj'] == "Zaloguj":
-            name = request.form['username']
-            password = request.form['password']
-            data = User.query.filter_by(username=name, password=password).first()
-            if data is not None:
-                session['logged_in'] = True
-                session['username'] = name
-                return redirect(url_for("start"))
-            else:
-                return "404 User Not Found"
+        return "wyloguj się"#redirect(url_for('start'))
 
 
 @app.route("/logout")
 def logout():
     """Logout Form"""
     session['logged_in'] = False
-    return redirect(url_for('home'))
+    return redirect(url_for('start'))
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if request.method == 'GET':
-        return render_template('rejestracja.html')
+    if session['logged_in'] == False:
+        if request.method == 'GET':
+            return render_template('rejestracja.html')
+        else:
+            new_user = User(
+                username=request.form['username'],
+                email=request.form['email'],
+                password=request.form['password'])
+            db.session.add(new_user)
+            db.session.commit()
+            session['username'] = request.form['username']
+            return redirect(url_for("start"))
     else:
-        new_user = User(
-            username=request.form['username'],
-            email=request.form['email'],
-            password=request.form['password'])
-        db.session.add(new_user)
-        db.session.commit()
-        session['username'] = request.form['username']
-        return redirect(url_for("start"))
+        session['logged_in']=False
+        return redirect(url_for("register"))
 
 
 @app.route("/account_edit", methods=['GET', 'POST'])
 def edit_account():
-    if request.method == 'GET':
-        return render_template('edycja.html')
-    else:
-        name = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-        user = User.query.filter_by(username=name).first()
-        if user is not None:
-            if password is not None:
-                user.password = password
-            if email is not None:
-                user.email = email
-            db.session.commit()
-            return redirect(url_for("start"))
+    if session['logged_in']:
+        if request.method == 'GET':
+            return render_template('edycja.html')
         else:
-            return "User don't exists"
-
+            name = request.form['username']
+            password = request.form['password']
+            email = request.form['email']
+            user = User.query.filter_by(username=name).first()
+            if user is not None:
+                if password is not None:
+                    user.password = password
+                if email is not None:
+                    user.email = email
+                db.session.commit()
+                return redirect(url_for("start"))
+            else:
+                return "User don't exists"
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/collection")
 def collection():
@@ -73,7 +85,7 @@ def collection():
         rosliny = ["pierwsza", "druga"]
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
-        return "Nie zalogowano!"
+        return redirect(url_for("login"))
 
 
 if __name__ == '__main__':

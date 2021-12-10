@@ -5,7 +5,7 @@ from main import app, db
 
 @app.route("/")
 def start():
-    if session['logged_in'] == False:
+    if not session['logged_in']:
         return render_template('projekt.html', url="/login", log_btn="Zaloguj")
     else:
         return render_template('projekt.html', url="/logout", log_btn="Wyloguj")
@@ -13,7 +13,7 @@ def start():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    if session['logged_in'] == False:
+    if not session['logged_in']:
         if request.method == 'GET':
             return render_template('logowanie.html')
         else:
@@ -40,7 +40,7 @@ def logout():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if session['logged_in'] == False:
+    if not session['logged_in']:
         if request.method == 'GET':
             return render_template('rejestracja.html')
         else:
@@ -53,7 +53,7 @@ def register():
             session['username'] = request.form['username']
             return redirect(url_for("start"))
     else:
-        session['logged_in']=False
+        session['logged_in'] = False
         return redirect(url_for("register"))
 
 
@@ -79,6 +79,7 @@ def edit_account():
     else:
         return redirect(url_for("login"))
 
+
 @app.route("/collection")
 def collection():
     if session['logged_in']:
@@ -86,6 +87,14 @@ def collection():
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
         return redirect(url_for("login"))
+
+
+@app.route("/delete")
+def delete_account():
+    user = User.query.filter_by(username=session['username']).first()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for("start"))
 
 
 if __name__ == '__main__':

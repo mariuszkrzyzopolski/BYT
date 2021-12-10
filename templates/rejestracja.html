@@ -4,23 +4,15 @@
 {% block content %}
     <!-- Block -->
     <main>
-      <!-- Title/Logo -->
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <h1 style=color:green>Muchałówka </h1>
-            <img src="static/img/img/2.gif" class="img-fluid" alt="2.gif">
-          </div>
-        </div>
-      </div>
-      <!-- Tile/Logo-End -->
       <!-- 2Columns-Block -->
       <div class="container">
         <div class="row">
+          <div class="col-sm-12">
+            <h3>Dodaj konto użytkownika</h3>
+          </div>
           <div class="col-sm-6 col-md-5 col-lg-6"><img src="static/img/img/1.jpg" class="img-fluid" alt="1.jpg"></div>
           <div class="col-sm-6 col-md-5 offset-md-2 col-lg-6 offset-lg-0">
             <form method="POST" action="{{ url_for('register') }}" name="register">
-              <h3>Dodaj konto użytkownika</h3><br><br>
               <div class="row g-3 align-items-center">
                 <div class="col-auto">
                   <label for="username" class="col-form-label">login</label>
@@ -53,10 +45,9 @@
                 </div>
               </div>
               <br>
-              <div class="container">
-                <div class="row row-cols-2">
-                  <input type="submit" value="Utwórz konto" name="loguj" class="btn btn-light">
-                </div>
+              <div class="row g-5">
+                <div class="col"><input type="submit" value="Utwórz konto" name="loguj" class="btn btn-success btn-block"></div>
+              </div>
             </form>
           </div>
         </div>

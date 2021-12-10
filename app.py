@@ -108,6 +108,21 @@ def add_to_account():
     db.session.commit()
     return redirect(url_for("collection"))
 
+@app.route("/remove/<plant_id>", methods=['GET', 'POST'])
+def remove(plant_id):
+    if session.get("logged_in") is not None:
+        name = session.get('username')
+        user =  User.query.filter_by(username=name).first()
+        plant = Plant.query.filter_by(id=plant_id, ownership=user.id).first()
+        if plant is not None:
+            if request.method == 'GET':
+                return render_template('confirmRemove.html', roslina=plant)
+            if request.method == 'POST':
+                plant.ownership = None
+                db.session.commit()
+                return redirect(url_for("collection"))
+           
+
 
 @app.route("/addList")
 def add_list():

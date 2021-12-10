@@ -33,7 +33,7 @@
                   <div class="card-body">
                     <h5 class="card-title">{{ roslina.name }}</h5>
                     <p class="card-text">{{ roslina.description }}</p>
-                    <a class="btn btn-danger">Usuń</a>
+                    <a href="{{ url_for('remove', plant_id=roslina.id) }}" class="btn btn-danger">Usuń</a>
                   </div>
                 </div>
 

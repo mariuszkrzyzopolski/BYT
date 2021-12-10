@@ -5,7 +5,7 @@ from main import app, db
 
 @app.route("/")
 def start():
-    if not session['logged_in']:
+    if session.get("logged_in") is None:
         return render_template('projekt.html', url="/login", log_btn="Zaloguj")
     else:
         return render_template('projekt.html', url="/logout", log_btn="Wyloguj")
@@ -13,7 +13,7 @@ def start():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    if not session['logged_in']:
+    if session.get("logged_in") is None:
         if request.method == 'GET':
             return render_template('logowanie.html')
         else:
@@ -26,7 +26,8 @@ def login():
                     session['username'] = name
                     return redirect(url_for("start"))
                 else:
-                    return "404 User Not Found"
+                    alert='Niepoprawny login lub hasło, spróbuj ponownie'
+                    return render_template('logowanie.html', alert=alert)
     else:
         return redirect(url_for('logout'))
 

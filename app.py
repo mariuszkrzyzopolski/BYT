@@ -28,7 +28,7 @@ def login():
                 else:
                     return "404 User Not Found"
     else:
-        return "wyloguj się"#redirect(url_for('start'))
+        return redirect(url_for('logout'))
 
 
 @app.route("/logout")

@@ -41,7 +41,7 @@ def logout():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if not session['logged_in']:
+    if session.get("logged_in") is None:
         if request.method == 'GET':
             return render_template('rejestracja.html')
         else:

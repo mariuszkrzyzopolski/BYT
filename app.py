@@ -101,7 +101,7 @@ def add_to_account():
 
 @app.route("/addList")
 def add_list():
-    rosliny = Plant.query.all()
+    rosliny = Plant.query.filter_by(ownership=None).all()
     return render_template('dodaj_z_listy.html', rosliny=rosliny)
 
 

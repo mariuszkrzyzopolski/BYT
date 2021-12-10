@@ -30,8 +30,9 @@
                 <div class="col"> <img src="static/img/rosliny/{{roslina}}.jpg" style="max-width: 100%;"></div>
               </div>
               <div class="row">
-                <div class="col">{{roslina}}</div>
+                <div class="col">{{ roslina.description }}</div>
               </div>
+              <a href="/addToAccount?plant={{ roslina.id }}">Dodaj</a>
             </div>
           </a>
           {% endfor %}

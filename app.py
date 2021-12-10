@@ -1,5 +1,5 @@
 from flask import url_for, render_template, request, redirect, session
-from models import User
+from models import User, Plant
 from main import app, db
 
 
@@ -87,6 +87,20 @@ def collection():
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
         return redirect(url_for("login"))
+
+@app.route("/addToAccount")
+def add_to_account():
+    plant_id = request.args.get('plant')
+    user = User.query.filter_by(username=session['username']).first()
+    plant = Plant.query.filter_by(id=plant_id).first()
+    plant.ownership = user.id
+    db.session.commit()
+    return redirect(url_for("collection"))
+
+@app.route("/addList")
+def add_list():
+    rosliny = Plant.query.all()
+    return render_template('dodaj_z_listy.html', rosliny=rosliny)
 
 
 @app.route("/delete")

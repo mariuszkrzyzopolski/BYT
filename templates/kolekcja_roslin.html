@@ -19,7 +19,7 @@
         <form method="POST" action="/function" name="funkcje">
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              <input type="submit" value="Dodaj do kolekcji" name="dodaj" class="btn btn-secondary">
+              <a href="/addList" class="btn btn-secondary">Dodaj do kolekcji</a>
             </li>
             <li class="list-group-item"> <input type="submit" value="Usuń z kolekcji" name="usun"
                 class="btn btn-danger"></li>
@@ -46,7 +46,7 @@
                 <p><a href="{{roslina }}">Nazwa</a></p>
                 <br>
                 <div class="row">
-                  <div class="col">Nazwa_rośliny</div>
+                  <div class="col">{{ roslina.description }}</div>
                 </div>
               </div>
             </div>

@@ -21,8 +21,7 @@ class Plant(db.Model):
     photo = db.Column(db.String(10))
     ownership = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, name, description, photo, ownership):
+    def __init__(self, name, description, photo):
         self.name = name
         self.description = description
         self.photo = photo
-        self.ownership = ownership

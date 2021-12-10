@@ -88,6 +88,7 @@ def collection():
     else:
         return redirect(url_for("login"))
 
+
 @app.route("/addToAccount")
 def add_to_account():
     plant_id = request.args.get('plant')
@@ -97,10 +98,25 @@ def add_to_account():
     db.session.commit()
     return redirect(url_for("collection"))
 
+
 @app.route("/addList")
 def add_list():
     rosliny = Plant.query.all()
     return render_template('dodaj_z_listy.html', rosliny=rosliny)
+
+
+@app.route("/addNewPlant", methods=['GET', 'POST'])
+def create_plant():
+    if request.method == 'GET':
+        return render_template('formPlant.html')
+    else:
+        new_plant = Plant(
+            name=request.form['name'],
+            description=request.form['description'],
+            photo=request.form['photo'])
+        db.session.add(new_plant)
+        db.session.commit()
+        return redirect(url_for("collection"))
 
 
 @app.route("/delete")

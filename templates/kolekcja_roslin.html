@@ -1,74 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
 <main>
-  <!-- Title/Logo -->
+
+  <!-- 2Columns-Block -->
   <div class="container">
     <div class="row">
-      <div class="col">
-        <h1 style=color:green>Muchałówka </h1>
-        <img src="static/img/img/2.gif" class="img-fluid" alt="2.gif">
+      <div class="col-sm-12">
+        <h3>Moja kolekcja roślin</h3>
       </div>
     </div>
-  </div>
-  <!-- Tile/Logo-End -->
-  <!-- 2Columns-Block -->
-  <!-- Left_Columns-Block -->
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4">
-        <form method="POST" action="/function" name="funkcje">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <a href="/addList" class="btn btn-secondary">Dodaj do kolekcji</a>
-            </li>
-            <li class="list-group-item"> <input type="submit" value="Usuń z kolekcji" name="usun"
-                class="btn btn-danger"></li>
-            <li class="list-group-item"> <input type="submit" value="Zarządzaj alertami" name="alerty"
-                class="btn btn-dark"></li>
-            <li class="list-group-item"> <input type="submit" value="Powiadomienia" name="powiadomienia"
-                class="btn btn-warning"></li>
-            <li class="list-group-item"><input type="submit" value="Opcje" name="opcje" class="btn btn-success">
-            </li>
-          </ul>
-        </form>
+    <br>
+    <div class="row g-2">
+       <!-- Left_Columns-Block -->
+      <div class="col-md-4">
+        <div class="btn-group-vertical" style="width:100%;">
+          <a href="{{ url_for('add_list') }}" type="button" class="btn btn-success">Dodaj nową roślinę</a>
+          <a type="button" class="btn btn-dark">Zarządzaj alertami</a>
+          <a type="button" class="btn btn-warning">Powiadomienia</a>
+          <a type="button" class="btn btn-secondary">Opcje</a>
+        </div>
       </div>
       <!--Left_Columns-Block-End -->
       <!-- Right_Columns-Block -->
-      <div class="col-sm-8">
-        <form method="POST" action="/login" name="zaloguj"></form>
-        <h2 style="text-align:center"> Moja Kolekcja
-        </h2><br>
-        <div class="container">
-          <div class="row">
+      <div class="col-md-8">
+        {% if rosliny %}
+          <div class="row g-3">
             {% for roslina in rosliny %}
-            <div class="col">
-              <div class="p-3 border rounded-1 h-100">
-                <p><a href="{{roslina }}">Nazwa</a></p>
-                <br>
-                <div class="row">
-                  <div class="col">{{ roslina.description }}</div>
+              <div class="col-md-4">
+
+                <div class="card" style="height: 100%;">
+                  <img class="card-img-top" src="/static/img/rosliny/{{ roslina.photo }}.jpg" alt="zdjecie rośliny - {{ roslina.name }}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ roslina.name }}</h5>
+                    <p class="card-text">{{ roslina.description }}</p>
+                    <a href="#" class="btn btn-danger">Usuń</a>
+                  </div>
                 </div>
+
               </div>
-            </div>
             {% endfor %}
           </div>
-        </div>
-        <br>
-        <div class="container">
-          <div class="row">
-            <div class="col"> <input type="submit" value="Dodaj" name="dodaj" class="btn btn-dark">
-            </div>
-            <div class="col">
-              <div class="col"> <input type="submit" value="Anuluj" name="usun" class="btn btn-danger">
-              </div>
-            </div>
-          </div>
-        </div>
-        </form>
+          
+        {% else %}
+          <div class="alert alert-warning" role="alert">Halooo, nic tu jeszcze nie ma... Może czas dodać nową roślinę?</div>
+        {% endif %}
       </div>
       <!-- Right_Columns-Block-End -->
     </div>
-    <br>
     <!-- Columns-Block-End -->
 </main>
 <!-- Block-End -->

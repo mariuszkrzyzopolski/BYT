@@ -1,4 +1,4 @@
-from flask import url_for, render_template, request, redirect, session
+from flask import url_for, render_template, request, redirect, session, g
 from models import User, Plant
 from main import app, db
 
@@ -6,9 +6,9 @@ from main import app, db
 @app.route("/")
 def start():
     if session.get("logged_in") is None:
-        return render_template('projekt.html', url="/login", log_btn="Zaloguj")
+        return render_template('firstPage.html', url="/login", log_btn="Zaloguj")
     else:
-        return render_template('projekt.html', url="/logout", log_btn="Wyloguj")
+        return render_template('firstPage.html', url="/logout", log_btn="Wyloguj")
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -37,6 +37,7 @@ def logout():
     """Logout Form"""
     #session['logged_in'] = None
     session.clear()
+    g.user=None
     return redirect(url_for('start'))
 
 
@@ -84,12 +85,11 @@ def edit_account():
 
 @app.route("/collection")
 def collection():
-    if session['logged_in']:
+    if session.get("logged_in") is not None:
         rosliny = User.query.filter_by(username=session['username']).first().plants
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
         return redirect(url_for("login"))
-
 
 @app.route("/addToAccount")
 def add_to_account():

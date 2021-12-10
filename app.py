@@ -99,9 +99,8 @@ def collection():
     else:
         return redirect(url_for("login"))
 
-@app.route("/addToAccount")
-def add_to_account():
-    plant_id = request.args.get('plant')
+@app.route("/addToAccount/<plant_id>")
+def add_to_account(plant_id):
     user = User.query.filter_by(username=session['username']).first()
     plant = Plant.query.filter_by(id=plant_id).first()
     plant.ownership = user.id

@@ -8,36 +8,39 @@
       <h2 style="text-align:center;">Dodaj roślinę do kolekcji
       </h2><br>
       {% if rosliny %}
-        <p style="text-align:center;">Wybierz roślinę lub <a href="/addNewPlant" type="button" class="btn btn-success">dodaj
+        <p style="text-align:center;">Wybierz roślinę z listy poniżej lub <a href="/addNewPlant" type="button" class="btn btn-success">dodaj
           własną</a>
-      </p><br>
+      </p>
+      <hr/>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <div class="row g-3">
+            {% for roslina in rosliny %}
+              <div class="col-lg-3 col-md-4">
+    
+                <div class="card" style="height: 100%;">
+                  <img class="card-img-top" src="/static/img/rosliny/{{ roslina.photo }}.jpg" alt="zdjecie rośliny - {{ roslina.name }}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ roslina.name }}</h5>
+                    <p class="card-text">{{ roslina.description }}</p>
+                    <a href="{{ url_for('add_to_account', plant_id=roslina.id) }}" class="btn btn-success">Dodaj tę roślinę</a>
+                  </div>
+                </div>
+    
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+
       {% else %}
       <div type="alert" class="alert alert-warning text-center">Nie mamy w tej chwili wolnych roślin do dodania
         <br><br>
         <a href="/addNewPlant" type="button" class="btn btn-success">Dodaj własną roślinę</a>
       </div>
       {% endif %}
-
-
-
-
-      <div class="container">
-        <div class="row">
-          {% for roslina in rosliny %}
-          <a href="#" class="col">
-            <div class="p-3 border rounded-1 h-100">
-              <div class="row">
-                <div class="col"> <img src="static/img/rosliny/{{roslina}}.jpg" style="max-width: 100%;"></div>
-              </div>
-              <div class="row">
-                <div class="col">{{ roslina.description }}</div>
-              </div>
-              <a href="/addToAccount?plant={{ roslina.id }}">Dodaj</a>
-            </div>
-          </a>
-          {% endfor %}
-        </div>
-      </div>
     </div>
   </div>
   <!-- Columns-Block-End -->

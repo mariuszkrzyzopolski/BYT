@@ -1,8 +1,8 @@
 from app import app as application
+from models import User
 
 
 def test_user():
-    response = application.test_client().get('/')
-
-    assert response.status_code == 200
-    assert response.data == b"<p>Hello, World!</p>"
+    usr = User("Testowy", "pass", "w@wp.pl")
+    print(usr.id)
+    assert usr.email == "w@wp.pl"

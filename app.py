@@ -120,13 +120,38 @@ def remove(plant_id):
                 plant.ownership = None
                 db.session.commit()
                 return redirect(url_for("collection"))
-           
 
 
 @app.route("/addList")
 def add_list():
     rosliny = Plant.query.filter_by(ownership=None).all()
     return render_template('dodaj_z_listy.html', rosliny=rosliny)
+
+
+@app.route("/plant_edit/<plant_id>", methods=['GET', 'POST'])
+def plant_edit(plant_id):
+    if session.get("logged_in") is not None:
+        if request.method == 'POST':
+            name = request.form['name']
+            description = request.form['description']
+            photo = request.form['photo']
+            plant = Plant.query.filter_by(id=plant_id).first()
+            if plant is not None:
+                if name is not None:
+                    plant.name = name
+                if description is not None:
+                    plant.description = description
+                if photo is not None:
+                    plant.photo = photo
+                db.session.commit()
+            return redirect(url_for("collection"))
+        elif request.method == 'GET':
+            plant = Plant.query.filter_by(id=plant_id).first()
+            return render_template("editPlant.html", roslina=plant)
+        else:
+            return "err"
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/addNewPlant", methods=['GET', 'POST'])

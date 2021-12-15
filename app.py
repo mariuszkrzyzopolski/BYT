@@ -1,19 +1,26 @@
-from flask import url_for, render_template, request, redirect, session
-from models import User
+from flask import url_for, render_template, request, redirect, session, g
+from models import User, Plant
 from main import app, db
 
+@app.before_request
+def check_if_user_logged_in():
+    name = session.get('username')
+    if name is None:
+        g.user = None
+    else:
+        g.user = User.query.filter_by(username=name).first()
 
 @app.route("/")
 def start():
-    if not session['logged_in']:
-        return render_template('projekt.html', url="/login", log_btn="Zaloguj")
+    if session.get("logged_in") is None:
+        return render_template('firstPage.html')
     else:
-        return render_template('projekt.html', url="/logout", log_btn="Wyloguj")
+        return render_template('firstPage.html')
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    if not session['logged_in']:
+    if session.get("logged_in") is None:
         if request.method == 'GET':
             return render_template('logowanie.html')
         else:
@@ -22,11 +29,13 @@ def login():
                 password = request.form['password']
                 data = User.query.filter_by(username=name, password=password).first()
                 if data is not None:
+                    session.clear()
                     session['logged_in'] = True
                     session['username'] = name
                     return redirect(url_for("start"))
                 else:
-                    return "404 User Not Found"
+                    alert='Niepoprawny login lub hasło, spróbuj ponownie'
+                    return render_template('logowanie.html', alert=alert)
     else:
         return redirect(url_for('logout'))
 
@@ -34,13 +43,15 @@ def login():
 @app.route("/logout")
 def logout():
     """Logout Form"""
-    session['logged_in'] = False
+    #session['logged_in'] = None
+    session.clear()
+    g.user=None
     return redirect(url_for('start'))
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if not session['logged_in']:
+    if session.get("logged_in") is None:
         if request.method == 'GET':
             return render_template('rejestracja.html')
         else:
@@ -82,11 +93,79 @@ def edit_account():
 
 @app.route("/collection")
 def collection():
-    if session['logged_in']:
-        rosliny = ["pierwsza", "druga"]
+    if session.get("logged_in") is not None:
+        rosliny = User.query.filter_by(username=session['username']).first().plants
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
         return redirect(url_for("login"))
+
+@app.route("/addToAccount/<plant_id>")
+def add_to_account(plant_id):
+    user = User.query.filter_by(username=session['username']).first()
+    plant = Plant.query.filter_by(id=plant_id).first()
+    plant.ownership = user.id
+    db.session.commit()
+    return redirect(url_for("collection"))
+
+@app.route("/remove/<plant_id>", methods=['GET', 'POST'])
+def remove(plant_id):
+    if session.get("logged_in") is not None:
+        name = session.get('username')
+        user =  User.query.filter_by(username=name).first()
+        plant = Plant.query.filter_by(id=plant_id, ownership=user.id).first()
+        if plant is not None:
+            if request.method == 'GET':
+                return render_template('confirmRemove.html', roslina=plant)
+            if request.method == 'POST':
+                plant.ownership = None
+                db.session.commit()
+                return redirect(url_for("collection"))
+
+
+@app.route("/addList")
+def add_list():
+    rosliny = Plant.query.filter_by(ownership=None).all()
+    return render_template('dodaj_z_listy.html', rosliny=rosliny)
+
+
+@app.route("/plant_edit/<plant_id>", methods=['GET', 'POST'])
+def plant_edit(plant_id):
+    if session.get("logged_in") is not None:
+        if request.method == 'POST':
+            name = request.form['name']
+            description = request.form['description']
+            photo = request.form['photo']
+            plant = Plant.query.filter_by(id=plant_id).first()
+            if plant is not None:
+                if name is not None:
+                    plant.name = name
+                if description is not None:
+                    plant.description = description
+                if photo is not None:
+                    plant.photo = photo
+                db.session.commit()
+            return redirect(url_for("collection"))
+        elif request.method == 'GET':
+            plant = Plant.query.filter_by(id=plant_id).first()
+            return render_template("editPlant.html", roslina=plant)
+        else:
+            return "err"
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/addNewPlant", methods=['GET', 'POST'])
+def create_plant():
+    if request.method == 'GET':
+        return render_template('formPlant.html')
+    else:
+        new_plant = Plant(
+            name=request.form['name'],
+            description=request.form['description'],
+            photo=request.form['photo'])
+        db.session.add(new_plant)
+        db.session.commit()
+        return redirect(url_for("collection"))
 
 
 @app.route("/delete")

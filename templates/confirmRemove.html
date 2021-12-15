@@ -1,0 +1,33 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Block -->
+    <main>
+      <!-- 2Columns-Block -->
+      <div class="container">
+        <div class="row">
+            <form method="POST" action="" name="confirmDelete">
+              <div class="row g-3 text-center">
+                <div class="col-12"><h3>Potwierdź usunięcie rośliny</h3></div>
+              </div>
+              <br>
+              <div class="row g-3 justify-content-md-center">
+                <div class="col-md-8 text-center">
+                  <div class="alert alert-danger" role="alert">
+                  <strong>Uwaga!</strong><br>Czy na pewno chcesz usunąć roślinę <b>{{ roslina.name }}</b> ze swojej kolekcji?
+                  <br><br>
+                  <input type="submit" value="Usuń roślinę" name="deletePlant" class="btn btn-danger">
+                  </div>
+                 </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Columns-Block-End -->
+    </main>
+    <!-- Block-End -->
+    <!-- Footer -->
+    {% endblock %}
+  

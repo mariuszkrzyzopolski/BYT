@@ -1,3 +1,10 @@
+main {
+	background-color: #fff;
+}
+body,footer {
+	background-color: rgb(237,250,237);
+}
+
 .container{
     padding-top:50px;
     padding-bottom: 20px;

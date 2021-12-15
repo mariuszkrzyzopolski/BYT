@@ -14,6 +14,9 @@ install:
 run:
 	$(ACTIVATE) && flask run --debugger
 
+test:
+	$(PYTHON) -m pytest -vvv
+
 clean:
 	rm -r $(VENV)
 	rm -r VenusFlytrap

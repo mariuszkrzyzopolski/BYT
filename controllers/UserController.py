@@ -1,5 +1,5 @@
 from main import db
-from model.user import User
+from models.User import User
 
 
 def add_user(u_name,u_email,u_pass):

@@ -1,6 +1,6 @@
 from main import db
-from model.plant import Plant
-from model.user import User
+from models.Plant import Plant
+from models.User import User
 
 
 def add_to_account(plant_id, u_name):

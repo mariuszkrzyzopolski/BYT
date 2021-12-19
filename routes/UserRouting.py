@@ -1,7 +1,7 @@
 from flask import url_for, render_template, request, redirect, session, g
 from main import app
-from service.plantService import *
-from service.userService import *
+from controllers.PlantController import *
+from controllers.UserController import *
 
 
 @app.before_request

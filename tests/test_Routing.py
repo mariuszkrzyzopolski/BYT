@@ -6,12 +6,6 @@ from models import User
 from app import db, app as application
 
 '''
-testDb = 1
-def test_test(flask_app_mock):
-    ap= flask_app_mock
-    rq = ap.get('/')
-    assert 1+2 == 3
-'''
 
 def test_routing_home():
     session['logged_in'] = False
@@ -41,3 +35,5 @@ def test_routing_register():
 def test_routing_collection():
     response = application.test_client().get('/collection')
     assert response.status_code == 200
+    
+'''

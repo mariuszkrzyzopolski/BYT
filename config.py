@@ -3,3 +3,4 @@ class Config(object):
     SECRET_KEY = "1"
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://sql11454497:RwkSDDxD8v@sql11.freemysqlhosting.net:3306' \
                               '/sql11454497 '
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

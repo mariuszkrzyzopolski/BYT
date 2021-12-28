@@ -6,6 +6,7 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50))
     email = db.Column(db.String(50))
+    plants = db.relationship('Plant', backref='user')
 
     def __init__(self, username, password, email):
         self.username = username

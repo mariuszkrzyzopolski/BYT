@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+
+  <!-- 2Columns-Block -->
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Lista powiadomień</h3>
+      </div>
+      
+    </div>
+    <br>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Nazwa rośliny</th>
+          <th scope="col">Rodzaj powiadomienia</th>
+          <th scope="col">Częstotliwość powiadomień</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>#</td>
+          <td>#</td>
+          <td>#</td>
+          <td><a href="/editNotification" type="button" class="btn btn-outline-secondary">Edytuj</a></td>
+          <td><a href="/delete" type="button" class="btn btn-outline-danger">Usuń</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+      </div> 
+</main>
+
+{% endblock %}

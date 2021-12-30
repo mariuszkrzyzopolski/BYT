@@ -35,8 +35,8 @@ def create_plant():
 
 
 @app.route("/addToAccount/<plant_id>")
-def add_plant_to_account(plant_id):
-    add_to_account(plant_id, session.get("username"))
+def add_to_account(plant_id):
+    add_plant_to_account(plant_id, session.get("username"))
     return redirect(url_for("collection"))
 
 

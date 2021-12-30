@@ -7,7 +7,7 @@ from controllers.UserController import *
 
 @app.route("/collection")
 def collection():
-    if session.get("logged_in") is not None:
+    if session.get("username") is not None:
         rosliny = User.query.filter_by(username=session['username']).first().plants
         return render_template('kolekcja_roslin.html', rosliny=rosliny)
     else:
@@ -35,14 +35,14 @@ def create_plant():
 
 
 @app.route("/addToAccount/<plant_id>")
-def add_plant_to_account(plant_id):
-    add_to_account(plant_id, session.get("username"))
+def add_to_account(plant_id):
+    add_plant_to_account(plant_id, session.get("username"))
     return redirect(url_for("collection"))
 
 
 @app.route("/plant_edit/<plant_id>", methods=['GET', 'POST'])
 def plant_edit(plant_id):
-    if session.get("logged_in") is not None:
+    if session.get("username") is not None:
         if request.method == 'POST':
             name = request.form['name']
             description = request.form['description']
@@ -68,7 +68,7 @@ def plant_edit(plant_id):
 
 @app.route("/remove/<plant_id>", methods=['GET', 'POST'])
 def remove(plant_id):
-    if session.get("logged_in") is not None:
+    if session.get("username") is not None:
         name = session.get('username')
         user = User.query.filter_by(username=name).first()
         plant = Plant.query.filter_by(id=plant_id, ownership=user.id).first()

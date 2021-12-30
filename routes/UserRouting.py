@@ -1,21 +1,12 @@
-from flask import url_for, render_template, request, redirect, session, g
+from flask import url_for, render_template, request, redirect, session
 
 from main import app
 from controllers.UserController import *
 
 
-@app.before_request
-def check_if_user_logged_in():
-    name = session.get('username')
-    if name is None:
-        g.user = None
-    else:
-        g.user = User.query.filter_by(username=name).first()
-
-
 @app.route("/")
 def start():
-    if session.get("logged_in") is None:
+    if session.get("username") is None:
         return render_template('firstPage.html')
     else:
         return render_template('firstPage.html')
@@ -23,75 +14,64 @@ def start():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    if session.get("logged_in") is None:
-        if request.method == 'GET':
-            return render_template('logowanie.html')
+    if session.get("username") is None:
+        if request.method == 'POST':
+            data = User.query.filter_by(
+                username=request.form['username'],
+                password=request.form['password']
+            ).first()
+            if data is not None:
+                session.clear()
+                session['username'] = request.form['username']
+                return redirect(url_for("start"))
+            else:
+                alert = 'Niepoprawny login lub hasło, spróbuj ponownie'
+                return render_template('logowanie.html', alert=alert)
         else:
-            if request.form['loguj'] == "Zaloguj":
-                name = request.form['username']
-                password = request.form['password']
-                data = User.query.filter_by(username=name, password=password).first()
-                if data is not None:
-                    session.clear()
-                    session['logged_in'] = True
-                    session['username'] = name
-                    return redirect(url_for("start"))
-                else:
-                    alert = 'Niepoprawny login lub hasło, spróbuj ponownie'
-                    return render_template('logowanie.html', alert=alert)
+            return render_template('logowanie.html')
     else:
         return redirect(url_for('logout'))
 
 
 @app.route("/logout")
 def logout():
-    """Logout Form"""
-    # session['logged_in'] = None
     session.clear()
-    g.user = None
     return redirect(url_for('start'))
 
 
 @app.route("/account_edit", methods=['GET', 'POST'])
 def edit_account():
-    if session['logged_in']:
-        if request.method == 'GET':
-            return render_template('edycja.html')
-        else:
-            name = request.form['username']
-            password = request.form['password']
-            email = request.form['email']
-            user = User.query.filter_by(username=name).first()
-            if user is not None:
-                if password is not None:
-                    user.password = password
-                if email is not None:
-                    user.email = email
-                db.session.commit()
+    if session.get("username") is not None:
+        if request.method == 'POST':
+            edited = edit_user(session.get("username"), request.form['email'], request.form['password'])
+            if edited is not None and request.form['username'] == session.get("username"):
                 return redirect(url_for("start"))
             else:
-                return "User don't exists"
+                return render_template('edycja.html', alert="By wprowadzić zmiany wpisz swój login")
+        else:
+            return render_template('edycja.html')
     else:
         return redirect(url_for("login"))
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if session.get("logged_in") is None:
-        if request.method == 'GET':
-            return render_template('rejestracja.html')
-        else:
-            add_user(request.form['username'], request.form['email'], request.form['password'])
-            session['username'] = request.form['username']
+    if session.get("username") is None:
+        if request.method == 'POST':
+            try:
+                new = add_user(request.form['username'], request.form['email'], request.form['password'])
+                session['username'] = new.username
+            except:
+                return render_template('rejestracja.html', alert="Być może użytkownik już istnieje")
             return redirect(url_for("start"))
+        else:
+            return render_template('rejestracja.html')
     else:
-        session['logged_in'] = False
-        return redirect(url_for("register"))
+        return redirect(url_for("start"))
 
 
 @app.route("/delete")
 def delete_account():
-    user = User.query.filter_by(username=session['username']).first()
-    db.session.delete(user)
-    db.session.commit()
+    del_user(session['username'])
+    session.clear()
     return redirect(url_for("start"))

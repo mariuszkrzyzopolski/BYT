@@ -29,7 +29,7 @@
             <li class="nav-item"><a class="nav-link" href="/account_edit">Opcje</a></li>
           </ul>
 
-          {% if g.user %}
+          {% if session.get("username") %}
             <ul class="navbar-nav navbar-right">
               <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Wyloguj</a></li>
             </ul>

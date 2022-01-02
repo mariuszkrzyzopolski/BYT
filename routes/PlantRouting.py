@@ -81,10 +81,13 @@ def remove(plant_id):
                 return redirect(url_for("collection"))
 
 
-@app.route("/alert")
+@app.route("/alert", methods=['GET', 'POST'])
 def alert():
     if session.get("username") is not None:
-        email = User.query.filter_by(username=session.get('username')).first().email
-        context = {"recipient": email, "subject": "Test", "message": "Podlej tą roślinę"}
-        schedule_mail(app, context)
-        return redirect(url_for("start"))
+        if request.method == 'GET':
+            return render_template('alerts.html')
+        else:
+            email = User.query.filter_by(username=session.get('username')).first().email
+            context = {"recipient": email, "subject": "Test", "message": "Podlej tą roślinę"}
+            schedule_mail(app, context)
+            return redirect(url_for("start"))

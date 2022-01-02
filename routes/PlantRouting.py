@@ -79,3 +79,12 @@ def remove(plant_id):
                 plant.ownership = None
                 db.session.commit()
                 return redirect(url_for("collection"))
+
+
+@app.route("/alert")
+def alert():
+    if session.get("username") is not None:
+        email = User.query.filter_by(username=session.get('username')).first().email
+        context = {"recipient": email, "subject": "Test", "message": "Podlej tą roślinę"}
+        schedule_mail(app, context)
+        return redirect(url_for("start"))

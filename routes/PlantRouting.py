@@ -85,9 +85,11 @@ def remove(plant_id):
 def alert():
     if session.get("username") is not None:
         if request.method == 'GET':
-            return render_template('alerts.html')
+            return render_template('addNotification.html')
         else:
             email = User.query.filter_by(username=session.get('username')).first().email
-            context = {"recipient": email, "subject": "Test", "message": "Podlej tą roślinę"}
-            schedule_mail(app, context)
+            context = {"recipient": email, "subject": "Przypomnienie z aplikacji Muchołówka",
+                       "message": session.get("username") + " " + choose_alert_kind(request.form['kind']) + " " +
+                                  request.form['plant']}
+            schedule_mail(app, context, request.form['frequency'])
             return redirect(url_for("start"))

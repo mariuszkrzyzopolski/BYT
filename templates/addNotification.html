@@ -15,8 +15,9 @@
         <div class="col-sm-12">
           <h6>Nazwa rośliny</h6>
           <select class="form-control" name="plant">
-            <option>Storczyk</option>
-            <option>Kaktus</option>
+            {% for plant in plants %}
+            <option>{{ plant.name }}</option>
+            {% endfor %}
           </select>
         </div>
         <br>

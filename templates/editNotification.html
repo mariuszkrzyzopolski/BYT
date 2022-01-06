@@ -14,15 +14,16 @@
       <form method="POST" action="" name="editAlert">
         <div class="col-sm-12">
           <h6>Nazwa rośliny</h6>
-          <select class="form-control">
-            <option>Storczyk</option>
-            <option>Kaktus</option>
+          <select class="form-control" name="plant">
+            {% for plant in plants %}
+            <option>{{ plant.name }}</option>
+            {% endfor %}
           </select>
         </div>
         <br>
         <div class="col-sm-12">
           <h6>Rodzaj powiadomienia</h6>
-          <select class="form-control">
+          <select class="form-control" name="kind">
             <option>Podlewanie</option>
             <option>Nawożenie</option>
           </select>
@@ -30,14 +31,12 @@
         <br>
         <div class="col-sm-12">
           <h6>Częstotliwość powiadomienia</h6>
-          <select class="form-control">
+          <select class="form-control" name="frequency">
             <option>Codziennie</option>
-            <option>Poniedziałek</option>
-            <option>Środa</option>
-            <option>Czwartek</option>
-            <option>Piątek</option>
-            <option>Sobota</option>
-            <option>Niedziela</option>
+            <option>Tygodniowo</option>
+            <option>Miesięcznie</option>
+            <option>Kwartalnie</option>
+            <option>Rocznie</option>
           </select>
         </div>
         <div class="row g-3 justify-content-md-center">

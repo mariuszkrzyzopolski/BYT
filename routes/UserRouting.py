@@ -75,3 +75,13 @@ def delete_account():
     del_user(session['username'])
     session.clear()
     return redirect(url_for("start"))
+
+
+@app.route("/u/<user_id>")
+def get_user(user_id):
+    if session.get("username") is not None:
+        user = User.query.filter_by(id=user_id).first()
+        if user is not None:
+            return render_template('kolekcja_roslin_usera.html', collection=user.plants, username=user.username)
+        else:
+            return "Not Found"

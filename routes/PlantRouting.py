@@ -16,7 +16,7 @@ def collection():
 
 @app.route("/addList")
 def add_list():
-    plants = Plant.query.filter_by(ownership=None).all()
+    plants = Pubplant.query.filter_by().all()
     return render_template('dodaj_z_listy.html', rosliny=plants)
 
 
@@ -28,15 +28,16 @@ def create_plant():
         new_plant = Plant(
             name=request.form['name'],
             description=request.form['description'],
-            photo=request.form['photo'])
+            photo=request.form['photo'],
+            ownership=User.query.filter_by(username=session.get("username")).first().id)
         db.session.add(new_plant)
         db.session.commit()
         return redirect(url_for("collection"))
 
 
-@app.route("/addToAccount/<plant_id>")
-def add_to_account(plant_id):
-    add_plant_to_account(plant_id, session.get("username"))
+@app.route("/addToAccount/<pubplant_id>")
+def add_to_account(pubplant_id):
+    add_pubplant_to_account(pubplant_id, session.get("username"))
     return redirect(url_for("collection"))
 
 
@@ -49,11 +50,11 @@ def plant_edit(plant_id):
             photo = request.form['photo']
             plant = Plant.query.filter_by(id=plant_id).first()
             if plant is not None:
-                if name is not None:
+                if name != "":
                     plant.name = name
-                if description is not None:
+                if description != "":
                     plant.description = description
-                if photo is not None:
+                if photo != "":
                     plant.photo = photo
                 db.session.commit()
             return redirect(url_for("collection"))

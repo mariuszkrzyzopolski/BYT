@@ -1,15 +1,17 @@
 from main import db
 from models.Plant import Plant
 from models.User import User
+from models.Pubplant import Pubplant
 import atexit
 from flask_mail import Mail, Message
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-def add_plant_to_account(plant_id, u_name):
-    user = User.query.filter_by(username=u_name).first()
-    plant = Plant.query.filter_by(id=plant_id).first()
-    plant.ownership = user.id
+def add_pubplant_to_account(plant_id, u_name):
+    owner = User.query.filter_by(username=u_name).first()
+    pubplant = Pubplant.query.filter_by(id=plant_id).first()
+    plant = Plant(name=pubplant.name, description=pubplant.description, photo=pubplant.photo, ownership=owner.id)
+    db.session.add(plant)
     db.session.commit()
 
 

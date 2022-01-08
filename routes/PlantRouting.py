@@ -15,53 +15,48 @@ def collection():
 
 
 @app.route("/addList")
-def add_list():
-    plants = Plant.query.filter_by(ownership=None).all()
-    return render_template('dodaj_z_listy.html', rosliny=plants)
+def add_from_list():
+    if session.get("username") is not None:
+        plants = Pubplant.query.filter_by().all()
+        return render_template('dodaj_z_listy.html', rosliny=plants)
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/addNewPlant", methods=['GET', 'POST'])
 def create_plant():
-    if request.method == 'GET':
-        return render_template('formPlant.html')
+    if session.get("username") is None:
+        if request.method == 'GET':
+            return render_template('formPlant.html')
+        else:
+            create_privplant(
+                request.form['name'],
+                request.form['description'],
+                request.form['photo'],
+                User.query.filter_by(username=session.get("username")).first().id)
+            return redirect(url_for("collection"))
     else:
-        new_plant = Plant(
-            name=request.form['name'],
-            description=request.form['description'],
-            photo=request.form['photo'])
-        db.session.add(new_plant)
-        db.session.commit()
+        return redirect(url_for("login"))
+
+
+@app.route("/addToAccount/<pubplant_id>")
+def add_to_account(pubplant_id):
+    if session.get("username") is None:
+        add_pubplant_to_account(pubplant_id, session.get("username"))
         return redirect(url_for("collection"))
-
-
-@app.route("/addToAccount/<plant_id>")
-def add_to_account(plant_id):
-    add_plant_to_account(plant_id, session.get("username"))
-    return redirect(url_for("collection"))
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/plant_edit/<plant_id>", methods=['GET', 'POST'])
 def plant_edit(plant_id):
     if session.get("username") is not None:
         if request.method == 'POST':
-            name = request.form['name']
-            description = request.form['description']
-            photo = request.form['photo']
-            plant = Plant.query.filter_by(id=plant_id).first()
-            if plant is not None:
-                if name is not None:
-                    plant.name = name
-                if description is not None:
-                    plant.description = description
-                if photo is not None:
-                    plant.photo = photo
-                db.session.commit()
+            edit_privplant(plant_id, request)
             return redirect(url_for("collection"))
-        elif request.method == 'GET':
+        else:
             plant = Plant.query.filter_by(id=plant_id).first()
             return render_template("editPlant.html", roslina=plant)
-        else:
-            return "err"
     else:
         return redirect(url_for("login"))
 
@@ -69,24 +64,9 @@ def plant_edit(plant_id):
 @app.route("/remove/<plant_id>", methods=['GET', 'POST'])
 def remove(plant_id):
     if session.get("username") is not None:
-        name = session.get('username')
-        user = User.query.filter_by(username=name).first()
-        plant = Plant.query.filter_by(id=plant_id, ownership=user.id).first()
-        if plant is not None:
-            if request.method == 'GET':
-                return render_template('confirmRemove.html', roslina=plant)
-            if request.method == 'POST':
-                plant.ownership = None
-                db.session.commit()
-                return redirect(url_for("collection"))
-
-
-@app.route("/alert", methods=['GET', 'POST'])
-def alert():
-    if session.get("username") is not None:
-        if request.method == 'GET':
-            return render_template('addNotification.html', plants=User.query.filter_by(username=session.
-                                                                                       get('username')).first().plants)
+        if request.method == 'POST':
+            remove_privplant(plant_id, session.get("username"))
+            return redirect(url_for("collection"))
         else:
             email = User.query.filter_by(username=session.get('username')).first().email
             context = {"recipient": email, "subject": "Przypomnienie z aplikacji Muchołówka",
@@ -95,3 +75,5 @@ def alert():
             schedule_mail(app, context, request.form['frequency'], request.form['plant'] +
                           choose_alert_kind(request.form['kind']))
             return redirect(url_for("start"))
+    else:
+        return redirect(url_for("login"))

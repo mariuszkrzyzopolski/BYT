@@ -25,7 +25,7 @@ def add_from_list():
 
 @app.route("/addNewPlant", methods=['GET', 'POST'])
 def create_plant():
-    if session.get("username") is None:
+    if session.get("username") is not None:
         if request.method == 'GET':
             return render_template('formPlant.html')
         else:

@@ -30,7 +30,7 @@ def choose_alert_kind(form):
         return "Nawieź roślinę"
 
 
-def schedule_mail(mail_app, context, frequency):
+def schedule_mail(mail_app, context, frequency, plant):
     global app
     app = mail_app
     scheduler = BackgroundScheduler()

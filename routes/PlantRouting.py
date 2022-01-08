@@ -92,5 +92,6 @@ def alert():
             context = {"recipient": email, "subject": "Przypomnienie z aplikacji Muchołówka",
                        "message": session.get("username") + " " + choose_alert_kind(request.form['kind']) + " " +
                                   request.form['plant']}
-            schedule_mail(app, context, request.form['frequency'])
+            schedule_mail(app, context, request.form['frequency'], request.form['plant'] +
+                          choose_alert_kind(request.form['kind']))
             return redirect(url_for("start"))

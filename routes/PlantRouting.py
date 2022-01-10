@@ -64,16 +64,13 @@ def plant_edit(plant_id):
 @app.route("/remove/<plant_id>", methods=['GET', 'POST'])
 def remove(plant_id):
     if session.get("username") is not None:
-        if request.method == 'POST':
-            remove_privplant(plant_id, session.get("username"))
-            return redirect(url_for("collection"))
-        else:
-            email = User.query.filter_by(username=session.get('username')).first().email
-            context = {"recipient": email, "subject": "Przypomnienie z aplikacji Muchołówka",
-                       "message": session.get("username") + " " + choose_alert_kind(request.form['kind']) + " " +
-                                  request.form['plant']}
-            schedule_mail(app, context, request.form['frequency'], request.form['plant'] +
-                          choose_alert_kind(request.form['kind']))
-            return redirect(url_for("start"))
-    else:
-        return redirect(url_for("login"))
+        name = session.get('username')
+        user = User.query.filter_by(username=name).first()
+        plant = Plant.query.filter_by(id=plant_id, ownership=user.id).first()
+        if plant is not None:
+            if request.method == 'GET':
+                return render_template('confirmRemove.html', roslina=plant)
+            if request.method == 'POST':
+                plant.ownership = None
+                db.session.commit()
+                return redirect(url_for("collection"))

@@ -77,6 +77,12 @@ def delete_account():
     return redirect(url_for("start"))
 
 
+@app.route("/u")
+def get_all_users():
+    if session.get("username") is not None:
+        return render_template('siec_uzytkownikow.html', users=User.query.all())
+
+
 @app.route("/u/<user_id>")
 def get_user(user_id):
     if session.get("username") is not None:

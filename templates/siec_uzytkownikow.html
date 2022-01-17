@@ -40,14 +40,23 @@
         <h2 style="text-align:center"> Moja sieć znajomych
         <div class="container">
           <div class="row">
-            {% for uzytkownik in uzytkownicy %}
+            {% for user in users %}
             <div class="col">
               <div class="p-3 border rounded-1 h-100">
                 <div class="row">
                   <div class="col">Imię/Pseudonim</div>
+                  {{ user.username }}
                 </div>
                 <br>
-                <p><a href="{{DaneUzytkownika}}">Dane</a></p>
+                <div class="row">
+                  <div class="col">email</div>
+                  {{ user.email }}
+                </div>
+                <ul>
+                {% for plant in user.plants %}
+                <li>{{ plant.name }}</li>
+                {% endfor %}
+                </ul>
               </div>
             </div>
             {% endfor %}

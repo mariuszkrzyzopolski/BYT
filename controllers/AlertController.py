@@ -29,11 +29,11 @@ def schedule_mail(mail_app, context, frequency):
     if frequency == "Tygodniowo":
         scheduler.add_job(func=send_mail, kwargs=context, trigger="interval", days=7)
     if frequency == "Miesięcznie":
-        scheduler.add_job(func=send_mail, kwargs=context, trigger="interval", months=1)
+        scheduler.add_job(func=send_mail, kwargs=context, trigger="interval", days=30)
     if frequency == "Kwartalnie":
-        scheduler.add_job(func=send_mail, kwargs=context, trigger="interval", months=3)
+        scheduler.add_job(func=send_mail, kwargs=context, trigger="interval", days=90)
     if frequency == "Rocznie":
-        scheduler.add_job(func=send_mail, kwargs=context, trigger="interval", years=1)
+        scheduler.add_job(func=send_mail, kwargs=context, trigger="interval", years=365)
     scheduler.start()
 
     # Shut down the scheduler when exiting the app

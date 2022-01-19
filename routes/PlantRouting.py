@@ -41,7 +41,7 @@ def create_plant():
 
 @app.route("/addToAccount/<pubplant_id>")
 def add_to_account(pubplant_id):
-    if session.get("username") is None:
+    if session.get("username") is not None:
         add_pubplant_to_account(pubplant_id, session.get("username"))
         return redirect(url_for("collection"))
     else:

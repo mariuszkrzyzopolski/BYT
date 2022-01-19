@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <main>
-
-  <!-- 2Columns-Block -->
   <div class="container container-with-padding">
     <div class="row">
       <div class="col-sm-12">
@@ -11,7 +9,6 @@
     </div>
     <br>
     <div class="row g-2">
-       <!-- Left_Columns-Block -->
       <div class="col-md-4">
         <div class="btn-group-vertical" style="width:100%;">
           <a href="{{ url_for('add_from_list') }}" type="button" class="btn btn-success">Dodaj nową roślinę</a>
@@ -20,8 +17,6 @@
           <a href="/account_edit" type="button" class="btn btn-secondary">Opcje</a>
         </div>
       </div>
-      <!--Left_Columns-Block-End -->
-      <!-- Right_Columns-Block -->
       <div class="col-md-8">
         {% if rosliny %}
           <div class="row g-3">
@@ -37,19 +32,13 @@
                       <a href="{{ url_for('remove', plant_id=roslina.id) }}" class="btn btn-danger">Usuń</a>
                   </div>
                 </div>
-
               </div>
             {% endfor %}
           </div>
-          
         {% else %}
           <div class="alert alert-warning" role="alert">Halooo, nic tu jeszcze nie ma... Może czas dodać nową roślinę?</div>
         {% endif %}
       </div>
-      <!-- Right_Columns-Block-End -->
-    </div>
-    <!-- Columns-Block-End -->
-    
+    </div>  
 </main>
-<!-- Block-End -->
 {% endblock %}

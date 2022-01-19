@@ -1,42 +1,39 @@
-
 {% extends "base.html" %}
-
 {% block content %}
-    <!-- Block -->
-    <main>
-      <!-- 2Columns-Block -->
-      <div class="container container-with-padding">
-        <div class="row">
-            <form method="POST" action="" name="addOwnPlant">
-              <div class="row g-3 text-center">
-                <div class="col-12"><h3>Dodaj własną roślinę do kolekcji</h3></div>
-              </div>
-              <br>
-              <div class="row g-3 justify-content-md-center">
-                <div class="col-md-3 text-right"><label for="photo" class="col-form-label">Zdjęcie</label></div>
-                <div class="col-md-4 "><input type="text" id="photo" name="photo" class="form-control" aria-describedby="photoHelpInline"></div>
-              </div>
-              <br>
-              <div class="row g-3 justify-content-md-center">
-                <div class="col-md-3 text-right"><label for="name" class="col-form-label">Nazwa rośliny</label></div>
-                <div class="col-md-4"><input type="text" id="name" name="name" class="form-control" aria-describedby="nameHelpInline"></div>
-              </div>
-              <br>
-              <div class="row g-3 justify-content-md-center">
-                <div class="col-md-3 text-right"><label for="description" class="col-form-label">Opis rośliny</label></div>
-                <div class="col-md-4"><textarea name="description" id="description" class="form-control"></textarea></div>
-              </div>
-              <br>
-              <div class="row g-3 justify-content-md-center">
-                <div class="col-md-7 text-center"><input type="submit" value="Dodaj roślinę" name="addPlant" class="btn btn-success"></div>
-              </div>
-            </form>
+<main>
+  <div class="container container-with-padding">
+    <div class="row">
+      <form method="POST" action="" name="addOwnPlant">
+        <div class="row g-3 text-center">
+          <div class="col-12">
+            <h3>Dodaj własną roślinę do kolekcji</h3>
           </div>
         </div>
-      </div>
-      <!-- Columns-Block-End -->
-    </main>
-    <!-- Block-End -->
-    <!-- Footer -->
-    {% endblock %}
-  
+        <br>
+        <div class="row g-3 justify-content-md-center">
+          <div class="col-md-3 text-right"><label for="photo" class="col-form-label">Zdjęcie</label></div>
+          <div class="col-md-4 "><input type="text" id="photo" name="photo" class="form-control"
+              aria-describedby="photoHelpInline"></div>
+        </div>
+        <br>
+        <div class="row g-3 justify-content-md-center">
+          <div class="col-md-3 text-right"><label for="name" class="col-form-label">Nazwa rośliny</label></div>
+          <div class="col-md-4"><input type="text" id="name" name="name" class="form-control"
+              aria-describedby="nameHelpInline"></div>
+        </div>
+        <br>
+        <div class="row g-3 justify-content-md-center">
+          <div class="col-md-3 text-right"><label for="description" class="col-form-label">Opis rośliny</label></div>
+          <div class="col-md-4"><textarea name="description" id="description" class="form-control"></textarea></div>
+        </div>
+        <br>
+        <div class="row g-3 justify-content-md-center">
+          <div class="col-md-7 text-center"><input type="submit" value="Dodaj roślinę" name="addPlant"
+              class="btn btn-success"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+</main>
+{% endblock %}

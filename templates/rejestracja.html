@@ -1,9 +1,7 @@
 
 {% extends "base.html" %}
 {% block content %}
-    <!-- Block -->
     <main>
-      <!-- 2Columns-Block -->
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
@@ -12,7 +10,6 @@
           <div class="col-sm-6 col-md-5 col-lg-6"><img src="static/img/img/1.jpg" class="img-fluid" alt="1.jpg"></div>
           <div class="col-sm-6 col-md-5 offset-md-2 col-lg-6 offset-lg-0">
             <form method="POST" action="{{ url_for('register') }}" name="register">
-
                 {% if alert %}
           <div class="row g-3 align-items-center">
             <div class="col-auto">
@@ -22,7 +19,6 @@
             </div>
           </div>
             {% endif %}
-
               <div class="row g-3 align-items-center">
                 <div class="col-auto">
                   <label for="username" class="col-form-label">login</label>
@@ -62,9 +58,6 @@
           </div>
         </div>
       </div>
-      <!-- Columns-Block-End -->
     </main>
-    <!-- Block-End -->
-    <!-- Footer -->
     {% endblock %}
   

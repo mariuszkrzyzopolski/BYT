@@ -13,9 +13,6 @@
         <div class="btn-group-vertical" style="width:100%;">
           <div class="col"> <input type="submit" value="Dodaj znajomego" name="dodaj" class="btn btn-success">
           </div>
-          <br>
-          <div class="col"> <input type="submit" value="Usuń znajomego" name="usun" class="btn btn-danger">
-          </div>
         </div>
       </div>
       <div class="col-md-8">
@@ -37,6 +34,9 @@
                       {{ plant.name }}
                       {% endfor %}
                     </li>
+                    </br>
+                    <div class="col"> <input type="submit" value="Usuń" name="usun" class="btn btn-danger">
+                    </div>
                   </ul>
                 </div>
               </div>

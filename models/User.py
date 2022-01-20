@@ -8,7 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(50))
     plants = db.relationship('Plant', backref='user')
 
-    def __init__(self, username, password, email):
+    def __init__(self, username, email, password):
         self.username = username
-        self.password = password
         self.email = email
+        self.password = password

@@ -35,7 +35,9 @@
                       {% endfor %}
                     </li>
                     </br>
-                    <div class="col"> <input type="submit" value="Usuń" name="usun" class="btn btn-danger">
+                    <div class="col"> 
+                      <a href="/u/{{ user.id }}" type="button" class="btn btn-secondary">Wyświetl kolekcję</a>
+                      <input type="submit" value="Usuń" name="usun" class="btn btn-danger"> 
                     </div>
                   </ul>
                 </div>

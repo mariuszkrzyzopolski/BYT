@@ -1,75 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
 <main>
-  <!-- Title/Logo -->
-  <div class="container">
+  <div class="container container-with-padding">
     <div class="row">
-      <div class="col">
-        <h1 style=color:green>Muchałówka </h1>
-        <img src="static/img/img/2.gif" class="img-fluid" alt="2.gif">
+      <div class="col-sm-12">
+        <h3>Moja sieć znajomych</h3>
       </div>
     </div>
-  </div>
-  <!-- Tile/Logo-End -->
-  <!-- 2Columns-Block -->
-  <!-- Left_Columns-Block -->
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4">
-        <form method="POST" action="/function" name="funkcje">
-
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <input type="submit" value="Dodaj" name="dodaj" class="btn btn-secondary">
-            </li>
-            <li class="list-group-item"> <input type="submit" value="Usuń" name="usun" class="btn btn-danger"></li>
-            <li class="list-group-item"> <input type="submit" value="Zarządzaj alertami" name="alerty"
-                class="btn btn-dark"></li>
-            <li class="list-group-item"> <input type="submit" value="Powiadomienia" name="powiadomienia"
-                class="btn btn-warning"></li>
-            <li class="list-group-item"><input type="submit" value="Sieć" name="siec" class="btn btn-primary"></li>
-            <li class="list-group-item"><input type="submit" value="Opcje" name="opcje" class="btn btn-success">
-            </li>
-          </ul>
-        </form>
+    <br>
+    <div class="row g-2">
+      <div class="col-md-4">
+        <div class="btn-group-vertical" style="width:100%;">
+          <div class="col"> <input type="submit" value="Dodaj znajomego" name="dodaj" class="btn btn-success">
+          </div>
+        </div>
       </div>
-      <!--Left_Columns-Block-End -->
-      <!-- Right_Columns-Block -->
-      <div class="col-sm-8">
-        <form method="POST" action="/login" name="zaloguj"></form>
-        <h2 style="text-align:center"> Moja sieć znajomych
+      <div class="col-md-8">
         <div class="container">
           <div class="row">
-            {% for uzytkownik in uzytkownicy %}
+            {% for user in users %}
             <div class="col">
-              <div class="p-3 border rounded-1 h-100">
-                <div class="row">
-                  <div class="col">Imię/Pseudonim</div>
+              <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Imie/Pseudonim:
+                      {{ user.username }}
+                    </li>
+                    <li class="list-group-item">email:
+                      {{ user.email }}
+                    </li>
+                    <li class="list-group-item">Rośliny:
+                      {% for plant in user.plants %}
+                      {{ plant.name }}
+                      {% endfor %}
+                    </li>
+                    </br>
+                    <div class="col"> 
+                      <a href="/u/{{ user.id }}" type="button" class="btn btn-secondary">Wyświetl kolekcję</a>
+                      <input type="submit" value="Usuń" name="usun" class="btn btn-danger"> 
+                    </div>
+                  </ul>
                 </div>
-                <br>
-                <p><a href="{{DaneUzytkownika}}">Dane</a></p>
               </div>
+              <br>
             </div>
             {% endfor %}
           </div>
         </div>
-        <br>
-        <div class="container">
-          <div class="row">
-            <div class="col"> <input type="submit" value="Dodaj" name="dodaj" class="btn btn-dark">
-            </div>
-            <div class="col">
-              <div class="col"> <input type="submit" value="Usuń" name="usun" class="btn btn-danger">
-              </div>
-            </div>
-          </div>
-        </div>
-        </form>
       </div>
-      <!-- Right_Columns-Block-End -->
     </div>
-    <br>
-    <!-- Columns-Block-End -->
 </main>
-<!-- Block-End -->
 {% endblock %}

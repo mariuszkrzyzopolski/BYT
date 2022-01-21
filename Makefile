@@ -4,7 +4,6 @@ PIP = $(VENV)/bin/pip
 ACTIVATE = . $(VENV)/bin/activate
 
 install:
-	sudo apt install python3 python3-venv python3-pip
 	mkdir VenusFlytrap
 	cd VenusFlytrap
 	python3 -m venv $(VENV)

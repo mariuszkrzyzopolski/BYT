@@ -1,1 +1,1 @@
-web: make install && run
+web: gunicorn app:app

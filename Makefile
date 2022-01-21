@@ -1,7 +1,7 @@
 VENV = flaskenv
 PYTHON = $(VENV)/bin/python3
 PIP = $(VENV)/bin/pip
-ACTIVATE = . $(VENV)/bin/activate
+ACTIVATE = . /app/$(VENV)/bin/activate
 
 install:
 	mkdir VenusFlytrap

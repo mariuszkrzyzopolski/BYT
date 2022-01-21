@@ -11,8 +11,37 @@
     <div class="row g-2">
       <div class="col-md-4">
         <div class="btn-group-vertical" style="width:100%;">
-          <div class="col"> <input type="submit" value="Dodaj znajomego" name="dodaj" class="btn btn-success">
+          <form method="POST" name="zaloguj">
+          {% if alert %}
+          <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <div class="alert alert-warning" role="alert">
+                {{ alert }}
+              </div>
+            </div>
           </div>
+          {% endif %}
+          <div class="col-auto">
+            <span id="passwordHelpInline" class="form-text">
+                Wprowadź nick osoby którą chcesz obserwować
+              </span>
+            </div>
+          <div class="row g-3 align-items-center">
+            <div class="col-auto">
+              <input type="text" name="username" class="form-control" aria-describedby="passwordHelpInline">
+            </div>
+          </div>
+          <br>
+          <div class="row g-3 align-items-center">
+          </div>
+          <br>
+          <div class="container">
+            <div class="row row-cols-2">
+              <input type="submit" value="Dodaj znajomego" name="dodaj" class="btn btn-success">
+            </div>
+            </br>
+          </div>
+        </form>
         </div>
       </div>
       <div class="col-md-8">
@@ -37,7 +66,7 @@
                     </br>
                     <div class="col"> 
                       <a href="/u/{{ user.id }}" type="button" class="btn btn-secondary">Wyświetl kolekcję</a>
-                      <input type="submit" value="Usuń" name="usun" class="btn btn-danger"> 
+                      <a href="/u/{{ user.id }}/delete" type="button" class="btn btn-danger">Usuń</a>
                     </div>
                   </ul>
                 </div>

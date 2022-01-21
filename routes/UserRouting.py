@@ -2,6 +2,7 @@ from flask import url_for, render_template, request, redirect, session
 
 from main import app
 from controllers.UserController import *
+from controllers.FrendshipController import *
 
 
 @app.route("/")
@@ -77,17 +78,38 @@ def delete_account():
     return redirect(url_for("start"))
 
 
-@app.route("/u")
-def get_all_users():
+@app.route("/u", methods=['GET', 'POST'])
+def get_all_firend():
     if session.get("username") is not None:
-        return render_template('siec_uzytkownikow.html', users=User.query.all())
+        user = User.query.filter_by(username=session.get("username")).first()
+        if request.method == 'GET':
+            friends = show_friend(user.id)
+            return render_template('siec_uzytkownikow.html', users=friends)
+        else:
+            friend = User.query.filter_by(username=request.form['username']).first()
+            add_friend(user.id, friend.id)
+            return redirect(url_for("get_all_firend"))
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/u/<user_id>")
-def get_user(user_id):
+def get_firend(user_id):
     if session.get("username") is not None:
         user = User.query.filter_by(id=user_id).first()
         if user is not None:
             return render_template('kolekcja_roslin_usera.html', collection=user.plants, username=user.username)
         else:
             return "Not Found"
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/u/<user_id>/delete")
+def delete_firend(user_id):
+    if session.get("username") is not None:
+        user = User.query.filter_by(username=session.get("username")).first()
+        delete_friend(user.id, user_id)
+        return redirect(url_for("get_all_firend"))
+    else:
+        return redirect(url_for("login"))

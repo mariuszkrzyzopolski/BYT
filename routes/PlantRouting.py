@@ -33,7 +33,8 @@ def create_plant():
                 request.form['name'],
                 request.form['description'],
                 request.form['photo'],
-                User.query.filter_by(username=session.get("username")).first().id)
+                User.query.filter_by(username=session.get("username")).first().id,
+                request.form['sun'])
             return redirect(url_for("collection"))
     else:
         return redirect(url_for("login"))
